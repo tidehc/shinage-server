@@ -5,12 +5,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Test: Build"
+                sh "tar -cjf shinage-server.tar.bz2 *"
             }
         }
         stage('Deploy') {
             steps {
-                echo "Test-Ausgabe"
+                sh "cp shinage-server.tar.bz2 /opt/shinage-devel/"
+
+                sh "cd /opt/shinage-devel/"
+                sh "tar -xjf shinage-server.tar.bz2"
+
+                sh "composer install"
+                sh "chown www-data:www-data . -R"
             }
         }
     }
